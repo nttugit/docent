@@ -1,0 +1,15 @@
+---
+description: Core project rules for Docent
+globs:
+alwaysApply: true
+---
+# Core rules
+
+- Read AGENTS.md for layout and commands. Follow the existing module boundaries.
+- NEVER add, remove, or upgrade a dependency without asking first. If one seems needed, stop and propose: package, why, alternatives.
+- NEVER write secrets, tokens, or real credentials into any file. Config comes from env via `docent.config.Settings`; document new vars in `.env.example`.
+- Keep diffs small and scoped to the task. No drive-by refactors or reformatting of unrelated files.
+- Every behavior change ships with tests. Run `make check` before declaring done; report its output.
+- Commit messages follow Conventional Commits: `type(scope): summary` (feat, fix, refactor, test, docs, chore, ci, perf, build). Scope = module name (ingest, retrieval, llm, classify, api, evals).
+- Learning-critical code — chunking, hybrid search / RRF, reranking, eval metrics, training loop, prompts: propose design, interfaces, and tests ONLY. Do not write the implementation unless the user explicitly says "implement".
+- If requirements are ambiguous, ask one precise question instead of guessing.

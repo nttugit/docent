@@ -1,0 +1,79 @@
+[project]
+name = "docent"
+version = "0.1.0"
+description = "Contract analytics: clause classification, field extraction, and RAG Q&A with citations."
+readme = "README.md"
+authors = [
+    { name = "nttugit", email = "126662710+nttugit@users.noreply.github.com" }
+]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.142.2",
+    "pydantic-settings>=2.15.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.22,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "mypy>=2.4.0",
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.10",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F",   # pycodestyle, pyflakes
+    "I",             # isort
+    "B",             # bugbear
+    "UP",            # pyupgrade
+    "N",             # naming
+    "SIM", "C4",     # simplify, comprehensions
+    "S",             # bandit (security)
+    "PT",            # pytest style
+    "RUF",
+    "FAST",          # FastAPI-specific
+]
+ignore = ["E501"]    # formatter lo line length
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]          # cho phép assert trong test
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.File"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+files = ["src", "tests"]
+mypy_path = "src"
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config", "--import-mode=importlib"]
+markers = [
+    "integration: calls external services (DB, LLM API); excluded from default runs",
+    "slow: takes > 1s",
+]
+
+[tool.coverage.run]
+source = ["docent"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 80

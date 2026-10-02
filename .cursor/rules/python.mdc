@@ -1,0 +1,16 @@
+---
+description: Python code conventions
+globs: src/**/*.py
+alwaysApply: false
+---
+# Python conventions
+
+- Python 3.12. Full type hints; code must pass `mypy --strict`. No `Any` unless justified in a comment.
+- Data crossing module boundaries = Pydantic models or frozen dataclasses. No loose dicts.
+- Modules: `ingest` (load/parse/chunk), `retrieval` (index/search/rerank), `llm` (LLM clients, prompts, structured output), `classify` (clause model train/infer), `evals` (metrics, harness, CLI), `api` (FastAPI routes only — thin; business logic lives in the other modules).
+- `api` may import other modules; other modules must NOT import `api`.
+- External clients (DB, Gemini, HF) are created in one place and injected (FastAPI `Depends` or constructor args) so tests can swap fakes.
+- Use `logging.getLogger(__name__)`; no `print` in src.
+- Raise specific exceptions; never bare `except:`. Don't swallow errors silently.
+- Pure functions where possible; side effects (network, disk) at the edges.
+- Docstrings on public functions: one-line summary + Args/Returns when non-obvious.

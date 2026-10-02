@@ -1,0 +1,14 @@
+---
+description: Testing conventions
+globs: tests/**/*.py
+alwaysApply: false
+---
+# Testing conventions
+
+- pytest only. Test files mirror src: `src/docent/ingest/chunker.py` → `tests/ingest/test_chunker.py`.
+- Test names describe behavior: `test_chunker_preserves_char_offsets`.
+- Unit tests: no network, no real DB, no real LLM. Use fakes/fixtures. Must run in < 1s each.
+- Anything touching external services → `@pytest.mark.integration` (excluded from default CI).
+- Prefer table-driven tests with `pytest.mark.parametrize`. Cover edge cases: empty input, unicode, boundaries.
+- All test functions annotated `-> None`. Shared fixtures go in the nearest `conftest.py`.
+- Coverage floor is 80%; don't write assertion-free tests to game it.
