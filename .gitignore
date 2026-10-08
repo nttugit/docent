@@ -22,7 +22,7 @@ htmlcov/
 *-key.json
 
 # Data & models (never commit)
-data/
+/data/
 models/
 *.safetensors
 *.bin

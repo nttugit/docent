@@ -29,6 +29,13 @@ make check     # lint + typecheck + tests (same as CI)
 make help      # all targets
 ```
 
+### Data
+Datasets live under `data/` (gitignored — never commit dataset files).
+```bash
+uv run python scripts/download_cuad.py   # CUAD v1 -> data/raw/cuad/ (skips if zip exists)
+uv run python scripts/explore_cuad.py    # stats report -> docs/data/cuad.md
+```
+
 ## Eval results
 _TODO: tables land Day 4, 6, 9, 10._
 
